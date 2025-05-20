@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import Header from "../components/Header";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const categories = [
   "체험 액티비티",
@@ -9,12 +12,10 @@ const categories = [
   "유명 관광지",
   "여유롭게 힐링",
   "문화 · 예술 · 역사",
-  "여행지 느낌 물씬",
+  "포토 핫스팟",
   "쇼핑",
   "관광보다는 먹방",
-  "독특한 이색 장소",
-  "확실한 일정",
-  "대중교통 위주",
+  "외국느낌 물씬",
 ];
 
 const companions = [
@@ -28,6 +29,9 @@ const companions = [
 
 export default function TravelStyleForm() {
   const navigate = useNavigate();
+  const [destination, setDestination] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   return (
     <>
@@ -37,6 +41,50 @@ export default function TravelStyleForm() {
         <p className="text-center text-gray-500 mb-10">
           나의 여행 스타일을 분석하여 맞춤형 여행 코스를 추천해드립니다.
         </p>
+
+        {/* 목적지 입력 */}
+        <div className="bg-gray-50 rounded-xl p-6 mb-10">
+          <h2 className="text-lg font-semibold mb-4">여행 목적지</h2>
+          <input type="text"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            className="w-full border border-gray-300 rounded px-4 py-2"
+            placeholder="ex) 서울 잠실"
+          />
+        </div>
+        
+        <div className="bg-gray-50 rounded-xl p-6 mb-10">
+          <h2 className="text-lg font-semibold mb-4">여행 기간</h2>
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col">
+              <label className="mb-1 font-medium">여행 시작일</label>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                selectStart
+                startDate={startDate}
+                endDate={endDate}
+                placeholderText="시작일 선택"
+                dateFormat="yyyy-MM-dd"
+                className="border border-gray-300 rounded px-4 py-2"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="mb-1 font-medium">여행 종료일</label>
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                selectsEnd
+                startDate={startDate}
+                endDate={endDate}
+                placeholderText="종료일 선택"
+                dateFormat="yyyy-MM-dd"
+                className="border border-gray-300 rounded px-4 py-2"
+              />
+            </div>
+          </div>
+        </div>
 
         <div className="bg-gray-50 rounded-xl p-6 mb-10">
           <h2 className="text-lg font-semibold mb-4">좋아하는 여행 스타일</h2>
